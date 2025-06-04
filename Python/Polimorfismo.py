@@ -58,6 +58,13 @@ def mostrar_info(pesso_obj):
 for obj in lista_obj_ex2:
     mostrar_info(obj)
 
+
+# ✅ EXERCÍCIO 4 — Lista com filtro (extra)
+# Objetivo: Criar uma lista com várias pessoas e imprimir apenas os professores com salário
+# acima de R$ 5000.
+# 💡 Dica:
+# Use isinstance(obj, Professor) para verificar o tipo.
+
 # professor1 = Professor("João", 50, 5500.00)
 # professor2 = Professor("Marcos", 36, 4100.00)
 
