@@ -49,8 +49,9 @@ print("### ---  Exercício 2 - Polimorfismo função genérica ---###")
 aluno2_ex2 =  Aluno("João", 40, "TI")
 professor2_ex2 = Professor("Marlon", 55, 14000.00)
 pessoa2_ex2 = Pessoa("José", 30)
+professor3 = Professor("Denis", 40, 4000.00)
 
-lista_obj_ex2 = [aluno, professor, aluno2_ex2, professor2_ex2, pessoa2_ex2]
+lista_obj_ex2 = [aluno, professor, aluno2_ex2, professor2_ex2, pessoa2_ex2, professor3]
 
 def mostrar_info(pesso_obj):
     print(pesso_obj.info())
@@ -64,6 +65,11 @@ for obj in lista_obj_ex2:
 # acima de R$ 5000.
 # 💡 Dica:
 # Use isinstance(obj, Professor) para verificar o tipo.
+
+for item_lista in lista_obj_ex2:
+    if isinstance(item_lista, Professor):
+        if item_lista.salario > 5000:
+            print(item_lista.nome, item_lista.salario)
 
 # professor1 = Professor("João", 50, 5500.00)
 # professor2 = Professor("Marcos", 36, 4100.00)
