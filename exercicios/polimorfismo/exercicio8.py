@@ -1,7 +1,7 @@
 # ✅ Exercício 1: Sistema de Cálculo de Salário de Funcionários
 # Objetivo: Modelar diferentes tipos de funcionários em uma empresa. Todos são "funcionários", mas a forma de calcular o pagamento de cada um é diferente. Uma classe abstrata é perfeita para garantir que todo funcionário saiba como "calcular seu pagamento".
 
-# 📋 Enunciado:
+# 📋 Enunciado: 
 
 # Crie uma classe abstrata Funcionario que herda de ABC.
 
