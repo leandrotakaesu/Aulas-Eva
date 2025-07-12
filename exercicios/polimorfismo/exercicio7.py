@@ -23,3 +23,44 @@
 # Imprima a terceira caixa e verifique se ela contém os itens de ambas e o volume combinado.
 # 💡 Dica:
 # Para sobrescrever operadores, você implementa "métodos mágicos" (aqueles com duplo sublinhado, como __add__, __str__, __len__, etc.).
+
+class Caixa:
+    def __init__(self, volume_maximo):
+        self.itens = []
+        self.volume_maximo = volume_maximo
+    
+    def __str__(self)->str:
+        return f"Caixa com {len(self.itens)} itens / Volume Máximo: {self.volume_maximo}"
+    
+    def adicionar_item(self, item):
+        self.itens.append(item)
+
+    def __add__(self, outra_caixa):
+        novo_volume_maximo = self.volume_maximo + outra_caixa.volume_maximo
+        nova_caixa = Caixa(novo_volume_maximo)
+        nova_caixa.itens = self.itens + outra_caixa.itens
+        return nova_caixa
+
+class Produto():
+    def __init__(self, nome, volume):
+        self.nome = nome
+        self.volume = volume
+
+    def __str__(self)->str:
+        return f"Nome do produto {self.nome} / Volume:{self.volume}"
+        
+produto1 = Produto("cobertor", 4)
+produto2 = Produto("mochila", 2)
+
+caixa1 = Caixa(5)
+caixa2 = Caixa(3)
+
+caixa1.adicionar_item(produto1)
+print(caixa1)
+
+caixa2.adicionar_item(produto2)
+print(caixa2)
+
+nova_caixa = caixa1 + caixa2
+print(nova_caixa)
+

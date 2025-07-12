@@ -21,3 +21,38 @@
 # As cordas do Violão estão vibrando: Dó, Ré, Mi...
 # A Bateria está marcando o ritmo: TUM, TA, TUM TUM TA!
 # (Opcional avançado: Pesquise sobre o módulo abc em Python para criar classes abstratas de verdade e marcar tocar() como um @abstractmethod.)
+
+
+class InstrumentoMusical:
+    def __init__(self, nome):
+        self.nome = nome
+
+    def tocar(self):
+        print(f"{self.nome} está produzindo um som indefinido")
+    
+class Violao(InstrumentoMusical):
+    def __init__(self, nome):
+        super().__init__(nome)
+
+    def tocar(self):
+        print(f"{self.nome}: As cordas do Violão estão vibrando: Dó, Ré, Mi...")
+    
+class Bateria(InstrumentoMusical):
+    def __init__(self, nome):
+        super().__init__(nome)
+
+    #def tocar(self):
+        #print(f"{self.nome}: A Bateria está marcando o ritmo: TUM, TA, TUM TUM TA!")
+
+#Função genérica que pode "apresentar" qualquer instrumento que saiba "tocar".
+    
+def apresentar_instrumento(instrumento):
+    instrumento.tocar()
+
+instrumento1 = Violao("violao")
+instrumento2 = Bateria("bateria")
+
+lista = [instrumento1, instrumento2]
+
+for objeto in lista:
+    apresentar_instrumento(objeto)
