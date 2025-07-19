@@ -28,3 +28,18 @@ df_produtos = pd.DataFrame({
 df_inner = pd.merge(df_vendas, df_produtos, on='id_produto', how='inner')
 print("## INNER JOIN ##")
 print(df_inner)
+
+# Mantém todas as vendas, mesmo que o produto não esteja cadastrado
+df_left = pd.merge(df_vendas, df_produtos, on='id_produto', how='left')
+print("\n## LEFT JOIN ##")
+print(df_left)
+
+# Mantém todos os produtos cadastrados, mesmo que não tenham sido vendidos
+df_right = pd.merge(df_vendas, df_produtos, on='id_produto', how='right')
+print("\n## RIGHT JOIN ##")
+print(df_right)
+
+# Mantém todas as vendas e todos os produtos cadastrados
+df_outer = pd.merge(df_vendas, df_produtos, on='id_produto', how='outer')
+print("\n## OUTER JOIN ##")
+print(df_outer)
