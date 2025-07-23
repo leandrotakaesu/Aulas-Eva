@@ -29,3 +29,7 @@ print(df)
 # .str.startswith('prefixo'): Verifica se o texto começa com um prefixo.
 
 # .str.endswith('sufixo'): Verifica se o texto termina com um sufixo.
+
+monitores = df[df['produto_limpo'].str.contains('Monitor')]
+print("\nFiltrando por 'Monitor':")
+print(monitores)
