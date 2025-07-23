@@ -1,0 +1,85 @@
+import pandas as pd
+
+dados_alunos = {
+  "Matrícula": [202301, 202302, 202303, 202304, 202305],
+  "Nome": ["Ana", "Bruno", "Carlos", "Daniela", "Eduardo"],
+  "Nota Matemática": [8.5, 6.0, 7.5, 9.5, 5.0],
+  "Nota Português": [9.0, 7.0, 6.5, 8.0, 6.0],
+  "Faltas": [2, 5, 1, 0, 8]
+}
+
+df_alunos = pd.DataFrame(dados_alunos)
+#print(df_alunos)
+
+# 1. Criação de Coluna (Cálculo Simples)
+# a) Crie uma nova coluna chamada `Nota_Media` que seja a média entre `Nota_Matematica` e `Nota_Portugues`.
+
+df_alunos["Nota Média"] = (df_alunos["Nota Matemática"] + df_alunos["Nota Português"])/2
+
+# b) Exiba o DataFrame com a nova coluna para verificar o resultado.
+
+print("Tabela com a coluna nota média criada")
+print(df_alunos)
+
+# 2. Filtragem Condicional (Boolean Indexing)
+# a) Crie um novo DataFrame chamado `aprovados` que contenha apenas os alunos com `Nota_Media` maior ou igual a 7.0.
+
+df_aprovados = df_alunos[df_alunos["Nota Média"] >= 7]
+print("\nTabela de alunos com nota média maior ou igual a 7")
+print(df_aprovados)
+
+# b) Crie um novo DataFrame chamado `alunos_em_risco` que contenha os alunos que tenham mais de 5 faltas.
+
+print("\nTabela de alunos com mais de 5 faltas")
+df_alunos_em_risco = df_alunos[df_alunos["Faltas"] > 5]
+print(df_alunos_em_risco)
+
+# 3. Criação de Coluna com Lógica (`.apply`)
+# a) Crie uma função Python chamada `definir_status`. Essa função deve receber a **média** e o **número de faltas** de um aluno. A lógica deve ser:
+# Se a média for >= 7.0 **E** o número de faltas for <= 5, o status é "Aprovado". Caso contrário, o status é "Reprovado".
+
+def definir_status(media, faltas):
+    if media >= 7 and faltas <= 5:
+        return "Aprovado"
+    else:
+        return "Reprovado"
+
+# b) Use o método `.apply()` para criar uma nova coluna chamada `Status` no `df_alunos` original, aplicando a função que você criou. (Dica: você precisará usar `lambda` para passar mais de uma coluna para a função).
+
+df_alunos["Status"] = df_alunos.apply(
+    lambda row: definir_status(row["Nota Média"], row["Faltas"]),
+    axis=1
+)
+
+# c) Exiba o DataFrame final com a coluna `Status`.
+
+print("\Tabela final com a coluna 'Status'")
+print(df_alunos)
+
+# 4. Seleção Avançada com `.loc` e `.iloc`
+# a) Defina a coluna `Matricula` como o novo índice do DataFrame `df_alunos`.
+
+df_alunos.set_index("Matrícula", inplace = True)
+
+# b) Use `.loc` para selecionar e exibir a linha inteira do aluno com a matrícula **202304**.
+
+aluno_202304 = df_alunos.loc[202304]
+print("\nAluno com matrícula 202304")
+print(aluno_202304)
+
+# c) Use `.iloc` para selecionar e exibir os dados da **primeira linha** e das **duas primeiras colunas** do DataFrame.
+
+df_corte = df_alunos.iloc[0:1, 0:2]
+print("\nPrimeira linha e duas primeiras colunas")
+print(df_corte)
+
+# d) Use `.loc` para selecionar e exibir a `Nota_Portugues` e as `Faltas` do aluno com matrícula **202302**.
+
+aluno_202302 = df_alunos.loc[202302, ["Nota Português", "Faltas"]]
+print("\nAluno com matrícula 202302")
+print(aluno_202302)
+
+# Em uma *única linha de código, encontre o **nome* do aluno que teve a maior Nota_Media.
+# *Dica:* O método .idxmax() pode ser muito útil aqui. Ele retorna o *índice* do valor máximo de uma Série.
+
+print(f"\nAluno com maior nota média: {df_alunos.loc[df_alunos["Nota Média"].idxmax(), "Nome"]}")

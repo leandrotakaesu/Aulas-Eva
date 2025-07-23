@@ -25,6 +25,8 @@ print(df_vendas_temporal)
 # 2025-07-16       Ana    Sudeste  Desktop   3200
 
 # Selecionar todas as vendas de um dia específico
-vendas_dia_16 = df_vendas_temporal.iloc['2025-07-16']
-
+vendas_dia_16 = df_vendas_temporal.loc['2025-07-16':'2025-07-18']
+print(vendas_dia_16)
+df_vendas.info()
+df_vendas_temporal.info()
 #  Selecionar um intervalo de datas
