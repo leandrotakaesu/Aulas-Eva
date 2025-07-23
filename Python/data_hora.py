@@ -33,3 +33,22 @@ df_vendas_temporal.info()
 
 df_vendas_temporal['Dia_Semana'] = df_vendas_temporal.index.day_name()
 print(df_vendas_temporal)
+
+
+# Códigos de Frequência Comuns:
+
+# 'D' - Dia (Day)
+
+# 'W' - Semana (Week)
+
+# 'M' - Fim do Mês (Month End)
+
+# 'MS' - Início do Mês (Month Start)
+
+# 'Q' - Fim do Trimestre (Quarter End)
+
+# 'Y' - Fim do Ano (Year End)
+
+# Reamostra os dados por dia ('D') e soma (.sum()) os valores de cada dia
+vendas_diarias = df_vendas_temporal['Valor'].resample('D').sum()
+print(vendas_diarias)
