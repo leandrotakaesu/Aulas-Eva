@@ -24,6 +24,7 @@ df['produto_limpo'] = df['produto_desc'].str.strip().str.capitalize()
 print("\nDataFrame Após Limpeza:")
 print(df)
 
+# Filtragem
 # .str.contains('texto'): Verifica se o texto contém uma substring.
 
 # .str.startswith('prefixo'): Verifica se o texto começa com um prefixo.
@@ -33,3 +34,15 @@ print(df)
 monitores = df[df['produto_limpo'].str.contains('Monitor')]
 print("\nFiltrando por 'Monitor':")
 print(monitores)
+
+
+# Divisão e Extração de Informações
+# .str.split('delimitador'): Quebra o texto em uma lista, usando um delimitador.
+
+# .str.split('delimitador', expand=True): Faz o mesmo, mas já cria novas colunas com os resultados da quebra.
+
+# Quebrando a coluna 'sku_limpo' em 3 novas colunas
+df[['Tipo', 'Codigo', 'Categoria_SKU']] = df['sku_limpo'].str.split('-', expand=True)
+
+print("\nDataFrame com colunas extraídas do SKU:")
+print(df)
