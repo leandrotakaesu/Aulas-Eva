@@ -30,3 +30,6 @@ print(vendas_dia_16)
 df_vendas.info()
 df_vendas_temporal.info()
 #  Selecionar um intervalo de datas
+
+df_vendas_temporal['Dia_Semana'] = df_vendas_temporal.index.day_name()
+print(df_vendas_temporal)
