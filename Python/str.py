@@ -15,3 +15,11 @@ print(df)
 # .str.replace('antigo', 'novo'): Substitui parte do texto por outra
 
 
+# Limpando a coluna 'sku'
+df['sku_limpo'] = df['sku'].str.strip().str.upper()
+
+# Limpando a coluna 'produto_desc'
+df['produto_limpo'] = df['produto_desc'].str.strip().str.capitalize()
+
+print("\nDataFrame Após Limpeza:")
+print(df)
