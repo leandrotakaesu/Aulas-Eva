@@ -23,3 +23,9 @@ df['produto_limpo'] = df['produto_desc'].str.strip().str.capitalize()
 
 print("\nDataFrame Após Limpeza:")
 print(df)
+
+# .str.contains('texto'): Verifica se o texto contém uma substring.
+
+# .str.startswith('prefixo'): Verifica se o texto começa com um prefixo.
+
+# .str.endswith('sufixo'): Verifica se o texto termina com um sufixo.
