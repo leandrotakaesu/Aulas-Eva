@@ -63,14 +63,14 @@ print(vendas_semanais)
 
 # b) Reamostre os dados para encontrar a média de vendas por mês.
 
-vendas_mensais = df_vendas["vendas"].resample("M").sum()
+vendas_mensais = df_vendas["vendas"].resample("ME").mean()
 print("\n")
 print(vendas_mensais)
 
 #  Desafio
-
 # Crie uma nova coluna chamada `semana_do_mes`, que indica em qual semana do mês a venda ocorreu (1ª, 2ª, 3ª, 4ª ou 5ª).
-df_vendas['semana_do_mes'] = (df_vendas.index.day - 1) // 7 + 1
+
+df_vendas['semana_do_mes'] = (df_vendas.index.day - 1)// 7 + 1
 print("DataFrame com a coluna 'semana_do_mes' (exemplo):")
 print(df_vendas.head())
 

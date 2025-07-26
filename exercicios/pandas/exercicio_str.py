@@ -1,4 +1,4 @@
-mport pandas as pd
+import pandas as pd
 
 dados_funcionarios = {
   "ID_Funcionario": [" a-101 ", "b-202", " C-303", "d-404 "],
@@ -11,7 +11,7 @@ df_func = pd.DataFrame(dados_funcionarios)
 # 1. Limpeza e Padronização de Dados
 # a) Crie uma nova coluna `ID_Limpo` que seja a coluna `ID_Funcionario` sem espaços em branco no início ou no fim, e com todo o texto em letras maiúsculas.
 
-df_func["ID_Limpo"] = df_func["ID_Funcionario"].str.strip().str.upper()
+df_func["ID_Funcionario"] = df_func["ID_Funcionario"].str.strip().str.upper()
 
 # b) Padronize a coluna `Nome_Completo` para que todos os nomes comecem com a primeira letra de cada palavra maiúscula e o resto seja minúsculo.
 
@@ -38,8 +38,8 @@ print(df_analistas)
 # 3. Extração de Informações com `.str.split()`
 # a) A partir da coluna `ID_Limpo` (criada no exercício 1), crie duas novas colunas no `df_func`: `Letra_ID` e `Numero_ID`, contendo as partes separadas do ID.
 
-df_func["Letra_ID"] = df_func["ID_Limpo"].str.split("-", expand = True)[0]
-df_func["Numero_ID"] = df_func["ID_Limpo"].str.split("-", expand = True)[1]
+df_func["Letra_ID"] = df_func["ID_Funcionario"].str.split("-", expand = True)[0]
+df_func["Numero_ID"] = df_func["ID_Funcionario"].str.split("-", expand = True)[1]
 print("\n")
 print(df_func)
 
@@ -56,12 +56,20 @@ print(df_func)
 # 3. Se nenhuma dessas palavras for encontrada, o valor deve ser 'Não especificado'.
 # 4. Depois de criar a coluna, use `.value_counts()` para contar quantos funcionários há em cada nível.
 
-#def extrair_nivel_senioridade(cargo):
-#  if cargo contains "Júnior":
-#    return "Júnior"
-#  elif cargo contains "Pleno":
-#    return "Pleno"
-#  elif cargo contains "sênior":
-#    return "Sênior"
-#  else:
-#    return "Não especificado"
+def extrair_nivel_senioridade(cargo):
+  if "Júnior" in cargo:
+    return "Júnior"
+  elif "Pleno" in cargo:
+    return "Pleno"
+  elif "Sênior" in cargo:
+    return "Sênior"
+  else:
+    return "Não especificado"
+  
+df_func["Nível_Senioridade"] = df_func["Cargo"].apply(extrair_nivel_senioridade)
+print("\n")
+print(df_func)
+
+df_nivel_senioridade = df_func["Nível_Senioridade"].value_counts()
+print("\n")
+print(df_nivel_senioridade)
