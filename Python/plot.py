@@ -10,6 +10,8 @@ df = pd.DataFrame(dados).set_index('Mes')
 
 # parametro kind, que define o tipo do grafico que vai ser criado.
 
+
+# grafico de linha
 df.plot(
     kind='line',
     title='Evolução das vendas mensais',
@@ -19,10 +21,12 @@ df.plot(
 
 plt.show()
 
-# grafico de linha
-
 # grafico de barra 
+#kind='bar',
+
 
 # histograma
+#kind='hist',
 
 # grafico de dispersao
+# kind='scatter',
