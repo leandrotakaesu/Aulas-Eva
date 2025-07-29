@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 dados = {
     'Mes': pd.to_datetime(['2025-01-01', '2025-02-01', '2025-03-01', '2025-04-01']),
@@ -15,6 +16,8 @@ df.plot(
     xlabel='Mês',
     ylabel='Valor da Venda',
 )
+
+plt.show()
 
 # grafico de linha
 
