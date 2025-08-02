@@ -27,7 +27,7 @@ df_rh = pd.DataFrame(dados_rh)
 #'with'
 
 try:
-    with pd.ExcelWriter('dados_emrpesa.xlsx') as writer:
+    with pd.ExcelWriter('dados_empresa.xlsx') as writer:
         print("\nSalvando a aba 'Resumo'...")
         df_resumo.to_excel(writer, sheet_name='Resumo', index=False)
        
