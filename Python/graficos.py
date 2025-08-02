@@ -54,7 +54,7 @@ faturamento_vendedor = df_revisao.groupby('vendedor')['faturamento'].sum()
 faturamento_vendedor.plot(
     kind='bar',
     title='Faturamento total por Vendedor',
-     ax=axes[0, 1]
+    ax=axes[0, 1]
 )
 ax=axes[0, 1].set_ylabel("Faturamento Total (R$)")
 # plt.show()
@@ -65,9 +65,10 @@ df_revisao.plot(
     kind = "scatter",
     title = "Quantidade vendida por produto",
     x = "preco_produto",
-    y = "unidades_vendidas"
+    y = "unidades_vendidas",
+    ax=axes[1, 0]
 )
-plt.show()
+axes[1, 0].set_xlabel("Unidades vendidas (R$)")
 
 # Qual a faixa de preço mais comum dos produtos vendidos
 
@@ -76,6 +77,10 @@ df_preco.plot(
     kind = "hist",
     title = "Faixa de Preço dos produtos",
     y = "preco_produto",
-    bins = 5
+    bins = 5,
+    ax=axes[1, 1]
 )
+axes[1, 1].set_xlabel("Faixa de Preço (R$)")
+
+# plt.show
 plt.show()
