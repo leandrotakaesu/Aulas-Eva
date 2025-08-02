@@ -49,4 +49,21 @@ plt.show()
 
 # Será que os produtos mais caros vendem menos por transação?
 
+df_revisao.plot(
+    kind = "scatter",
+    title = "Quantidade vendida por produto",
+    x = "preco_produto",
+    y = "unidades_vendidas"
+)
+plt.show()
+
 # Qual a faixa de preço mais comum dos produtos vendidos
+
+df_preco = df_revisao["preco_produto"]
+df_preco.plot(
+    kind = "hist",
+    title = "Faixa de Preço dos produtos",
+    y = "preco_produto",
+    bins = 5
+)
+plt.show()
