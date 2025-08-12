@@ -1,5 +1,10 @@
 # python3 -m pip install seaborn
 
+# deixa de ser desenhar os graficos 
+# passa a ser fazer perguntas para os dados
+
+
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -20,6 +25,12 @@ df = sns.load_dataset('tips')
 sns.boxplot(x='day', y='total_bill', data=df)
 plt.title('Distribuição do Valor da Conta por Dia da Semana')
 plt.show()
+
+
+
+
+
+
 
 # 2. Countplot - Contando Categorias
 # É como um gráfico de barras que já faz a contagem para você (um .value_counts().plot(kind='bar') em um só comando).
