@@ -26,7 +26,7 @@ print(df_cursos)
 No papel de analista:  
 Escolhas
 
-Do exame: (Boxplot, Histplot, Scatterplot, Heatmap) ? **Scatterplot**
+Do exame: (Boxplot, Histplot, Scatterplot, Heatmap) ? Scatterplot
 Realização do exame: Escrever o codigo
 Apresentação do diagnostico:
 """
@@ -126,11 +126,56 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-np.random.seed(0) # Para garantir que os dados sejam sempre os mesmos
+np.random.seed(0)
 datas = pd.date_range(start='2025-01-01', periods=90, freq='D')
 vendas_base = np.linspace(100, 150, 90) # Uma tendência de crescimento suave
 ruido = np.random.randint(-30, 30, 90)
 vendas_diarias = vendas_base + ruido
+
+
+### Linha 1: `np.random.seed(0)`
+
+# O que faz? "Trava" a aleatoriedade.
+# Explicação Detalhada: Computadores não geram números verdadeiramente aleatórios, mas sim "pseudoaleatórios", que são sequências de números que parecem aleatórias, mas são geradas por um algoritmo. Se você começar o algoritmo com o mesmo número inicial (a "semente" ou `seed`), ele sempre produzirá a mesma sequência de números "aleatórios".
+# Analogia: Pense nisso como o "seed" de um mapa no jogo Minecraft. Se você e seu amigo usarem o mesmo seed, o mundo gerado será exatamente o mesmo. Usar `np.random.seed(0)` garante que toda vez que rodarmos este script, os dados de "ruído" gerados na linha 4 sejam idênticos, tornando nosso exemplo reprodutível.
+
+### Linha 2: `datas = pd.date_range(start='2025-01-01', periods=90, freq='D')`
+
+# O que faz? Cria uma sequência de 90 dias consecutivos.
+# Explicação Detalhada: Usamos a função `date_range` do pandas, que é especialista em criar sequências de datas.
+#     * `start='2025-01-01'`: Define o ponto de partida.
+#     * `periods=90`: Define quantos itens queremos na nossa sequência (90 datas).
+#     * `freq='D'`: Define a frequência. `'D'` significa "Day" (dia).
+# Resultado: A variável `datas` agora contém uma lista de 90 datas, começando em 1º de Janeiro de 2025 e terminando 90 dias depois. Este será o nosso eixo do tempo.
+
+
+### Linha 3: `vendas_base = np.linspace(100, 150, 90)`
+
+# O que faz? Cria a nossa tendência de crescimento suave e perfeita.
+# Explicação Detalhada: `np.linspace` (espaço linear) é uma função do NumPy que cria números igualmente espaçados entre um ponto inicial e um final.
+#     * `100`: O valor inicial.
+#     * `150`: O valor final.
+#     * `90`: Quantos "passos" queremos dar entre 100 e 150.
+# Analogia: Imagine que você quer desenhar uma rampa reta que começa na altura 100 e termina na altura 150, e você precisa marcar 90 pontos igualmente espaçados ao longo dessa rampa. É exatamente isso que o `linspace` faz.
+# Resultado: A variável `vendas_base` contém 90 números que crescem de forma perfeitamente linear de 100 a 150. Esta é a nossa "estrada pavimentada" da analogia anterior.
+
+
+### Linha 4: `ruido = np.random.randint(-30, 30, 90)`
+
+# O que faz? Cria as flutuações aleatórias do dia a dia.
+# Explicação Detalhada: `np.random.randint` gera números inteiros aleatórios.
+#     * `-30`: O menor número possível.
+#     * `30`: O maior número possível (o limite superior é exclusivo, então na verdade vai até 29).
+#     * `90`: Quantos números aleatórios queremos gerar.
+# Analogia: Estes são os "buracos e solavancos" que vamos adicionar à nossa estrada perfeitamente pavimentada para que ela pareça real.
+# Resultado: A variável `ruido` contém 90 números inteiros aleatórios, positivos e negativos, entre -30 e +29.
+
+
+### Linha 5: `vendas_diarias = vendas_base + ruido`
+
+# O que faz? Combina a tendência suave com a variação aleatória.
+# Explicação Detalhada: Aqui, simplesmente somamos os dois arrays que criamos. O NumPy soma os elementos posição por posição: o primeiro elemento de `vendas_base` com o primeiro de `ruido`, o segundo com o segundo, e assim por diante.
+# Resultado Final: A variável `vendas_diarias` contém nossos 90 pontos de dados finais. Eles têm uma tendência geral de crescimento (graças ao `vendas_base`), mas também variam para cima e para baixo a cada dia de forma imprevisível (graças ao `ruido`), simulando um comportamento de vendas muito mais realista.
 
 df_vendas = pd.DataFrame({'Vendas': vendas_diarias}, index=datas)
 print(df_vendas)
