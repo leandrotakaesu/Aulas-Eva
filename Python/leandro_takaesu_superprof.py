@@ -32,17 +32,17 @@ Apresentação do diagnostico:
 """
 
 df_cursos.plot(kind='scatter', x='duracao_horas', y='nota_media_alunos')
-plt.show()
+# plt.show()
 
 sns.scatterplot(data=df_cursos, x='duracao_horas', y='nota_media_alunos')
-plt.show()
+# plt.show()
 
 """Adicionar uma linha de tendência para ver a relação mais claramente
 
 """
 
 sns.regplot(x='duracao_horas', y='nota_media_alunos', data=df_cursos, color='red', scatter=False)
-plt.show()
+# plt.show()
 
 import pandas as pd
 import seaborn as sns
@@ -141,5 +141,16 @@ df_vendas['Media_Movel_30D'] = df_vendas['Vendas'].rolling(window=30).mean()
 print("DataFrame com as médias móveis (primeiras 10 linhas):")
 print(df_vendas.head(10))
 
-df_vendas.plot(y=['Vendas', 'Media_Movel_7D', 'Media_Movel_30D'])
+# df_vendas.plot(y=['Vendas', 'Media_Movel_7D', 'Media_Movel_30D'])
+
+df_vendas.plot(
+    figsize=(14, 7),
+    title='Vendas Diárias vs. Médias Móveis',
+    style=['-', '--', ':'] # Estilos de linha diferentes para cada coluna
+)
+
+plt.legend(['Vendas Diárias (com ruído)', 'Média Móvel de 7 Dias', 'Média Móvel de 30 Dias'])
+plt.ylabel('Valor da Venda')
+plt.grid(True)
 plt.show()
+# plt.show()
