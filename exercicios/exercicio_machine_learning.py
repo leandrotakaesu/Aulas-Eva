@@ -97,3 +97,34 @@ print(df_teste_ordenado)
 
 df_teste_ordenado.plot(kind = 'scatter')
 plt.show()
+
+
+
+import matplotlib.pyplot as plt
+import pandas as pd
+
+
+df_plot = pd.DataFrame({
+    'Investimento': X_teste['investimento_marketing'], 
+    'Vendas_Reais': y_teste,
+    'Vendas_Previstas': previsoes
+})
+
+
+df_plot_sorted = df_plot.sort_values(by='Investimento')
+
+# 3. Definir a coluna do eixo X como o índice do DataFrame
+df_plot_sorted.set_index('Investimento', inplace=True)
+
+
+df_plot_sorted.plot(
+    figsize=(12, 7),
+    style=['o--', '-'], 
+    title='Desempenho do Modelo (Padrão Pandas .plot)',
+    ylabel='Vendas (R$)',
+    xlabel='Investimento em Marketing (R$)'
+)
+
+plt.grid(True)
+plt.legend()
+plt.show()
