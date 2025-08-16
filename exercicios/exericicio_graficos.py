@@ -14,21 +14,14 @@ df_acessos = pd.DataFrame({'Data': datas, 'Acessos': acessos}).set_index('Data')
 # Qual gráfico usar?
 # Escreva o código.
 
-# # Código para plotar o gráfico de linhas
-# plt.style.use('seaborn-v0_8-whitegrid')
-# plt.figure(figsize=(12, 6))
-# plt.plot(df_acessos.index, df_acessos['Acessos'], marker='o', linestyle='-')
-
-# # Adicionando título e rótulos
-# plt.title('Tendência de Acessos ao Site em Junho de 2025')
-# plt.xlabel('Data')
-# plt.ylabel('Número de Acessos')
-
-# # Melhorando a visualização
-# plt.xticks(rotation=45)
-# plt.tight_layout()
-
-# plt.show()
+df_acessos_junho = df_acessos['Acessos']
+df_acessos_junho.plot(
+    kind='line',
+    title='Acessos ao Site por Dia',
+    xlabel='Data',
+    ylabel='Acessos'
+)
+plt.show()
 
 # Exercício 2: Comparação de Desempenho de Vendas
 # Cenário: Você tem os dados consolidados do total de vendas (em milhões) para diferentes produtos de uma empresa.
@@ -42,26 +35,14 @@ df_produtos = pd.DataFrame({
 # Qual gráfico usar?
 # Escreva o código.
 
-# # Ordena os dados para melhor visualização
-# df_produtos_sorted = df_produtos.sort_values('Vendas_Milhoes', ascending=False)
+df_produtos.plot(
+    kind='bar',
+    title='Vendas de Produtos',
+    xlabel='Produto',
+    ylabel='Vendas (em milhões)'
+)
 
-# # Cria o gráfico de barras
-# plt.style.use('seaborn-v0_8-whitegrid')
-# plt.figure(figsize=(10, 6))
-# bars = plt.bar(df_produtos_sorted.index, df_produtos_sorted['Vendas_Milhoes'], color='skyblue')
-
-# # Adiciona os valores no topo de cada barra
-# for bar in bars:
-#     yval = bar.get_height()
-#     plt.text(bar.get_x() + bar.get_width()/2.0, yval, f'{int(yval)}M', va='bottom', ha='center') # M for Milhões
-
-# # Adiciona título e rótulos
-# plt.title('Total de Vendas por Produto')
-# plt.xlabel('Produto')
-# plt.ylabel('Vendas (em Milhões de R$)')
-# plt.ylim(0, df_produtos_sorted['Vendas_Milhoes'].max() * 1.1) # Ajusta o limite do eixo y
-
-# plt.show()
+plt.show()
 
 # Exercício 3: Análise da Distribuição de Preços
 # Cenário: Você tem uma lista com os preços de 200 imóveis que foram vendidos em uma determinada cidade.
@@ -74,24 +55,15 @@ df_imoveis = pd.DataFrame({'Preco_Venda': precos})
 # Qual gráfico usar?
 # Escreva o código.
 
-# # Calcula a média para adicionar uma linha de referência
-# media_preco = df_imoveis['Preco_Venda'].mean()
-
-# # Cria o histograma
-# plt.style.use('seaborn-v0_8-whitegrid')
-# plt.figure(figsize=(10, 6))
-# plt.hist(df_imoveis['Preco_Venda'], bins=20, color='c', edgecolor='black', alpha=0.7)
-
-# # Adiciona uma linha vertical para a média
-# plt.axvline(media_preco, color='red', linestyle='dashed', linewidth=2)
-# plt.text(media_preco * 1.02, plt.ylim()[1] * 0.9, f'Média: R$ {media_preco:,.0f}'.replace(',', '.'), color='red')
-
-# # Adiciona título e rótulos
-# plt.title('Distribuição dos Preços de Venda dos Imóveis')
-# plt.xlabel('Preço de Venda (R$)')
-# plt.ylabel('Frequência (Número de Imóveis)')
-
-# plt.show()
+df_imoveis.plot(
+    kind = "hist",
+    title = "Quantidade de imóveis por faixa de preço",
+    y = "Preco_Venda",
+    bins = 20,
+    xlabel = "Faixa de Preço",
+    ylabel = "Quantidade de Imóveis"
+)
+plt.show()
 
 # Exercício 4: Relação entre Investimento e Retorno
 # Cenário: Você tem dados de várias campanhas de marketing, mostrando o valor investido e o retorno (receita gerada) para cada uma.
@@ -105,18 +77,13 @@ df_campanhas = pd.DataFrame({'Investimento': investimento, 'Receita': receita})
 # Qual gráfico usar?
 # Escreva o código.
 
-# # Cria o gráfico de dispersão
-# plt.style.use('seaborn-v0_8-whitegrid')
-# plt.figure(figsize=(10, 6))
-# plt.scatter(df_campanhas['Investimento'], df_campanhas['Receita'], alpha=0.7, edgecolors='b')
+df_campanhas.plot(
+    kind = "scatter",
+    title = "Investimento em campanha x Receita",
+    x = "Investimento",
+    y = "Receita",
+    xlabel = "Investimento",
+    ylabel = "Receita"
+)
 
-# # Adiciona uma linha de tendência para visualizar melhor a relação
-# m, b = np.polyfit(df_campanhas['Investimento'], df_campanhas['Receita'], 1)
-# plt.plot(df_campanhas['Investimento'], m * df_campanhas['Investimento'] + b, color='red', linewidth=2)
-
-# # Adiciona título e rótulos
-# plt.title('Relação entre Investimento e Receita nas Campanhas')
-# plt.xlabel('Investimento (R$)')
-# plt.ylabel('Receita Gerada (R$)')
-
-# plt.show()
+plt.show()

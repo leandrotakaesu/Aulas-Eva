@@ -9,7 +9,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-df = sns.load_dataset('tips')
+# df = sns.load_dataset('tips')
 
 #    total_bill   tip     sex smoker  day    time  size
 # 0       16.99  1.01  Female     No  Sun  Dinner     2
@@ -22,9 +22,9 @@ df = sns.load_dataset('tips')
 # Um boxplot é excelente para comparar a distribuição de uma variável 
 # numérica entre diferentes categorias. Ele mostra a mediana, os quartis e os outliers.
 
-sns.boxplot(x='day', y='total_bill', data=df)
-plt.title('Distribuição do Valor da Conta por Dia da Semana')
-plt.show()
+# sns.boxplot(x='day', y='total_bill', data=df)
+# plt.title('Distribuição do Valor da Conta por Dia da Semana')
+# plt.show()
 
 
 
