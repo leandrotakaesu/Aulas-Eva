@@ -12,7 +12,6 @@ df_vendas = pd.DataFrame({
     'vendas': vendas
 })
 
-
 # Sua Tarefa: Siga os 5 Passos do Machine Learning
 # 1. Preparação dos Dados (Definir X e y)
 # a) Crie a variável X contendo a coluna que será usada para prever (a "causa").
@@ -69,8 +68,6 @@ novo_investimento = [[4200]]
 venda_prevista = modelo.predict(novo_investimento)
 print(f"Previsão de preço para um investimento de R$ 4.200,00: R$ {venda_prevista[0]:,.2f}")
 
-
-
 # Preparação: Separamos os dados em X (o que usamos para prever) e y (o que queremos prever). É crucial que X seja um DataFrame (com colchetes duplos), pois os modelos do Scikit-learn esperam uma entrada 2D.
 
 # Divisão: Usamos train_test_split para criar os conjuntos de treino e teste. Isso nos permite avaliar o modelo de forma honesta, testando-o com dados que ele nunca viu durante o treinamento. random_state=42 garante que a divisão seja sempre a mesma.
@@ -87,7 +84,16 @@ print(f"Previsão de preço para um investimento de R$ 4.200,00: R$ {venda_previ
 
 # Para prever um novo valor, precisamos passá-lo em um formato 2D, por isso usamos [[4200]]. O modelo então aplica a fórmula que aprendeu para nos dar a previsão de vendas.
 
+import matplotlib.pyplot as plt
 
+df_teste_ordenado = pd.DataFrame({
+    'investimento': X_teste['investimento_marketing'], 
+    'venda': y_teste
+}).sort_values(by = 'investimento')
 
-import matplotlib as plt
+df_teste_ordenado.set_index('investimento')
 
+print(df_teste_ordenado)
+
+df_teste_ordenado.plot(kind = 'scatter')
+plt.show()
