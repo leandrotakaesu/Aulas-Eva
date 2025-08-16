@@ -69,5 +69,25 @@ novo_investimento = [[4200]]
 venda_prevista = modelo.predict(novo_investimento)
 print(f"Previsão de preço para um investimento de R$ 4.200,00: R$ {venda_prevista[0]:,.2f}")
 
+
+
+# Preparação: Separamos os dados em X (o que usamos para prever) e y (o que queremos prever). É crucial que X seja um DataFrame (com colchetes duplos), pois os modelos do Scikit-learn esperam uma entrada 2D.
+
+# Divisão: Usamos train_test_split para criar os conjuntos de treino e teste. Isso nos permite avaliar o modelo de forma honesta, testando-o com dados que ele nunca viu durante o treinamento. random_state=42 garante que a divisão seja sempre a mesma.
+
+# Criação do Modelo: modelo = LinearRegression() simplesmente cria um "cérebro" de regressão linear vazio, pronto para aprender.
+
+# Treinamento: modelo.fit(X_treino, y_treino) é a etapa de aprendizado. O modelo analisa a relação entre investimento e vendas nos dados de treino e "desenha" a melhor linha reta que descreve essa relação.
+
+# Avaliação:
+
+# .predict(X_teste) usa a linha aprendida para prever os valores de vendas para os dados de teste.
+
+# r2_score compara as previsões com os valores reais (y_teste) e nos dá uma nota de 0 a 1. Um score de 97.87% é excelente, indicando que nosso modelo é muito bom em prever as vendas com base no investimento.
+
+# Para prever um novo valor, precisamos passá-lo em um formato 2D, por isso usamos [[4200]]. O modelo então aplica a fórmula que aprendeu para nos dar a previsão de vendas.
+
+
+
 import matplotlib as plt
 
