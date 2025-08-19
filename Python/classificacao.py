@@ -71,6 +71,11 @@ matriz = confusion_matrix(y_teste, previsoes)
 print("\nMatriz de Confusão:")
 # Vamos visualizar a matriz com um heatmap para ficar mais claro
 sns.heatmap(matriz, annot=True, fmt='d', xticklabels=modelo_knn.classes_, yticklabels=modelo_knn.classes_, cmap='Blues')
+# matriz: O primeiro argumento são os dado
+# annot=True: annot é abreviação de "annotate" (anotar). 
+# fmt='d': fmt é abreviação de "format" (formato). 
+# xticklabels=modelo_knn.classes_ e yticklabels=modelo_knn.classes_: Estes parâmetros definem os rótulos para os eixos X e Y.
+# cmap='Blues': cmap significa "colormap" (mapa de cores).
 plt.xlabel('Rótulo Previsto')
 plt.ylabel('Rótulo Real')
 plt.title('Matriz de Confusão')
