@@ -128,3 +128,68 @@ df_plot_sorted.plot(
 plt.grid(True)
 plt.legend()
 plt.show()
+
+
+# scatterplot para o exercicio df_vendas
+
+# Exercício: Prevendo a Nota Final de Alunos
+# Cenário: Você é um cientista de dados em uma plataforma educacional. Você tem dados sobre quantos horas os alunos estudam e quantos exercícios eles completam. Seu objetivo é criar um modelo que possa prever a nota final de um aluno com base nesses dois fatores.
+
+# Passo 0: Os Dados
+# Use o DataFrame abaixo para o exercício.
+
+
+import pandas as pd
+import numpy as np
+
+# Gerando dados de exemplo para 100 alunos
+np.random.seed(2025)
+horas_estudo = np.random.uniform(1, 10, 100)
+exercicios_feitos = np.random.randint(5, 50, 100)
+
+# A nota final é uma combinação das duas variáveis + um pouco de ruído aleatório
+nota_final = (horas_estudo * 5) + (exercicios_feitos * 0.5) + np.random.normal(0, 5, 100)
+# Garante que as notas fiquem entre 0 e 100
+nota_final = np.clip(nota_final, 0, 100) 
+
+df_alunos = pd.DataFrame({
+    'horas_estudo': horas_estudo.round(1),
+    'exercicios_feitos': exercicios_feitos,
+    'nota_final': nota_final.round(2)
+})
+# Sua Tarefa: Siga os 5 Passos do Machine Learning
+# Sua tarefa é criar um modelo de Regressão Linear Múltipla para prever a nota_final de um aluno com base nas horas_estudo и nos exercicios_feitos.
+
+# 1. Preparação dos Dados (Definir X e y)
+# a) Crie a variável X contendo as colunas que serão usadas para prever ('horas_estudo', 'exercicios_feitos').
+# b) Crie a variável y contendo a coluna que você quer prever ('nota_final').
+
+# 2. Divisão em Dados de Treino e Teste
+# a) Importe train_test_split.
+# b) Divida os dados em 80% para treino e 20% para teste. Use random_state=42.
+
+# 3. Escolha e Criação do Modelo
+# a) Importe LinearRegression.
+# b) Crie uma instância do modelo.
+
+# 4. Treinamento do Modelo
+# a) Treine o modelo com os dados de treino.
+
+# 5. Avaliação e Previsão
+# a) Calcule o score R² do seu modelo usando os dados de teste. Imprima o resultado.
+# b) Use o modelo treinado para prever qual seria a nota_final de um aluno que estudou 7.5 horas e fez 40 exercícios. Imprima a previsão.
+
+# Desafio de Visualização
+# Como agora temos duas variáveis de entrada, não podemos mais simplesmente plotar X vs. Y em um gráfico 2D. Uma das melhores maneiras de visualizar o desempenho de um modelo de regressão é comparar os valores reais com os valores previstos.
+
+# Sua Tarefa de Visualização:
+
+# Faça as previsões para o seu conjunto de teste (X_teste).
+
+# Crie um gráfico de dispersão (scatterplot) onde:
+
+# O eixo X seja o valor real (y_teste).
+
+# O eixo Y seja o valor previsto pelo modelo (previsoes).
+
+# Se o modelo for perfeito, todos os pontos devem cair em uma linha diagonal perfeita de 45 graus. Adicione essa linha ao gráfico para ter uma referência.
