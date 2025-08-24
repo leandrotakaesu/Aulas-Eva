@@ -95,8 +95,8 @@ df_teste_ordenado.set_index('investimento')
 
 print(df_teste_ordenado)
 
-df_teste_ordenado.plot(kind = 'scatter')
-plt.show()
+#df_teste_ordenado.plot(kind = 'scatter')
+#plt.show()
 
 
 
