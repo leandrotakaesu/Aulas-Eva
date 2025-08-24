@@ -1,11 +1,11 @@
-Exercício: Melhorando um Modelo de Previsão de Churn
+# Exercício: Melhorando um Modelo de Previsão de Churn
 
-Cenário:
-Uma empresa de telecomunicações quer prever a evasão de clientes (churn). Temos dados sobre o tempo de contrato do cliente, sua mensalidade e o tipo de plano. Note como `tempo_cliente_meses` (1-72) e `mensalidade` (50-200) têm escalas bem diferentes.
+# Cenário:
+# Uma empresa de telecomunicações quer prever a evasão de clientes (churn). Temos dados sobre o tempo de contrato do cliente, sua mensalidade e o tipo de plano. Note como `tempo_cliente_meses` (1-72) e `mensalidade` (50-200) têm escalas bem diferentes.
 
 
-import pandas as pd
-import numpy as np
+# import pandas as pd
+# import numpy as np
 
 
 np.random.seed(42)
