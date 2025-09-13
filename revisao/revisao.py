@@ -10,7 +10,7 @@
 
 # Filtrar por idade 
 
-# df[df['idade']> 30]
+# df_clientes[df_clientes['idade']> 30]
 
 # Converter um texto em colunas numericas
 
@@ -21,7 +21,7 @@
 
 # Pergunta: Descobrir o valor médio de venda por categoria.
 
-df.groupby('Categoria')['Valor_Venda'].mean()
+# df.groupby('Categoria')['Valor_Venda'].mean()
 
 # Visualização de Dados com Seaborn
 
@@ -64,12 +64,31 @@ df_clientes = pd.DataFrame(dados)
 
 # Manipulação (Módulo 1 e 2): Crie uma nova coluna chamada faixa_etaria. Se a idade do cliente for menor que 30, o valor deve ser 'Jovem'. Se for entre 30 e 50, 'Adulto'. Se for maior que 50, 'Sênior'.
 
+def faixa_etaria(idade):
+    if idade < 30:
+        return 'Jovem'
+    elif idade < 50:
+        return 'Adulto'
+    else:
+        return 'Sênior'
 
-# Análise e Agrupamento (Módulo 3): Calcule a nota de satisfação média para cada tipo de plano. 
-# Qual plano tem os clientes mais satisfeitos, em média?
+df_clientes['faixa_etaria'] = df_clientes['idade'].apply(faixa_etaria)
 
-# Visualização (Módulo 5 - Seaborn): Crie um boxplot para visualizar a distribuição da satisfacao para cada plano. 
-# Isso ajuda a confirmar visualmente o resultado da sua análise anterior.
+print(df_clientes)
+
+# Análise e Agrupamento (Módulo 3): Calcule a nota de satisfação média para cada tipo de plano. Qual plano tem os clientes mais satisfeitos, em média?
+
+df_satisfacao_plano = df_clientes.groupby('plano')['satisfacao'].mean().round(2)
+print("\n")
+print(df_satisfacao_plano)
+
+# Visualização (Módulo 5 - Seaborn): Crie um boxplot para visualizar a distribuição da satisfacao para cada plano. Isso ajuda a confirmar visualmente o resultado da sua análise anterior.
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.boxplot(data=df_clientes, x='plano', y='satisfacao')
+plt.show()
 
 # Machine Learning (Módulo 5 - sklearn):
 # a) Prepare os dados: Crie X (com 'idade', 'plano', 'meses_como_cliente') e y (com 'satisfacao').

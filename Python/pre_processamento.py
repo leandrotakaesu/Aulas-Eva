@@ -18,9 +18,9 @@ from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
 
 # 2. APRENDA a escala com os dados de TREINO e os transforme
-X_treino_scaled = scaler.fit_transform(X_treino)
+# X_treino_scaled = scaler.fit_transform(X_treino)
 
-X_teste_scaled = scaler.transform(X_teste)
+# X_teste_scaled = scaler.transform(X_teste)
 
 # Texto em Números (Encoding)
 # One-Hot Encoding
