@@ -65,9 +65,11 @@ df_clientes = pd.DataFrame(dados)
 # Manipulação (Módulo 1 e 2): Crie uma nova coluna chamada faixa_etaria. Se a idade do cliente for menor que 30, o valor deve ser 'Jovem'. Se for entre 30 e 50, 'Adulto'. Se for maior que 50, 'Sênior'.
 
 
-# Análise e Agrupamento (Módulo 3): Calcule a nota de satisfação média para cada tipo de plano. Qual plano tem os clientes mais satisfeitos, em média?
+# Análise e Agrupamento (Módulo 3): Calcule a nota de satisfação média para cada tipo de plano. 
+# Qual plano tem os clientes mais satisfeitos, em média?
 
-# Visualização (Módulo 5 - Seaborn): Crie um boxplot para visualizar a distribuição da satisfacao para cada plano. Isso ajuda a confirmar visualmente o resultado da sua análise anterior.
+# Visualização (Módulo 5 - Seaborn): Crie um boxplot para visualizar a distribuição da satisfacao para cada plano. 
+# Isso ajuda a confirmar visualmente o resultado da sua análise anterior.
 
 # Machine Learning (Módulo 5 - sklearn):
 # a) Prepare os dados: Crie X (com 'idade', 'plano', 'meses_como_cliente') e y (com 'satisfacao').
