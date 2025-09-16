@@ -48,6 +48,9 @@
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor
 
 np.random.seed(100)
 dados = {
@@ -92,5 +95,24 @@ plt.show()
 
 # Machine Learning (Módulo 5 - sklearn):
 # a) Prepare os dados: Crie X (com 'idade', 'plano', 'meses_como_cliente') e y (com 'satisfacao').
+
+# Converter a coluna 'plano' em colunas numéricas 
+df_para_ml = pd.get_dummies(df_clientes, columns=['plano'], dtype=int)
+
+#removendo as coluinas que não são features ou o proprio target
+X = df_para_ml.drop(columns=['id_cliente', 'satisfacao', 'faixa_etaria'])
+y = df_para_ml['satisfacao']
+
+
 # b) Siga o fluxo de 5 passos para treinar um modelo para prever a satisfacao de um cliente.
+
+X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.3, random_state=42)
+
+modelo_arvore = DecisionTreeRegressor(random_state=42)
+modelo_arvore.fit(X_treino, y_treino)
+
+score_r2 = modelo_arvore.score(X_teste, y_teste)
+print(f"c) O Score R² do modelo de Árvore de Decisão é: {score_r2:.2f}")
+print("(Um valor próximo de 0 indica que o modelo não conseguiu aprender um padrão claro, o que é esperado com dados aleatórios).")
+
 # c) Qual o score R² do seu modelo no conjunto de teste?
