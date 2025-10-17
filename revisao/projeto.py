@@ -51,6 +51,9 @@ df_vendas['Valor_Total'] = df_vendas['Valor_Total'].str.replace('.', '')
 df_vendas['Valor_Total'] = df_vendas['Valor_Total'].str.replace(',', '.')
 df_vendas['Valor_Total'] = pd.to_numeric(df_vendas['Valor_Total'])
 
+# -----
+# df_vendas['Valor_Total'] = df_vendas['Valor_Total'].str.replace('R$ ', '').str.replace('.', '').str.replace(',', '.').astype(float)
+# ------
 # Há um valor nulo (NaN) em Valor_Total. Decida uma estratégia para tratá-lo e justifique sua escolha.
 
 custo_produto_104 = df_produtos.loc[df_produtos['ID_Produto'] == 104, 'Custo_Unitario'].iloc[0]
@@ -58,11 +61,26 @@ quantidade_venda_5 = df_vendas.loc[df_vendas['ID_Venda'] == 5, 'Quantidade'].ilo
 valor_calculado = custo_produto_104 * quantidade_venda_5
 df_vendas.loc[df_vendas['ID_Venda'] == 5, 'Valor_Total'] = valor_calculado
 
+# sugestao identificar via codigo o que esta nulo NaN ao inves de fazer manual
+
+#Removo a linha de venda
+# inplace=True remove as linhas diretamente no dataframe original
+# inplace=False retorna um novo Dataframe com as linhas removidas
+df_vendas.dropna(subset=['Valor_Total'], inplace=True)
+print("Tabela de vendas")
+print(df_vendas)
+
+
+
 # A coluna Data_Venda tem formatos mistos (YYYY-MM-DD e DD/MM/YYYY). Unifique toda a coluna para o tipo datetime.
 
 df_vendas['Data_Venda'] = pd.to_datetime(df_vendas['Data_Venda'], format='mixed')
 print("Tabela de vendas")
 print(df_vendas)
+
+# Unificando o formato da 'Data_Venda'
+df_vendas['Data_Venda'] = pd.to_datetime(df_vendas['Data_Venda'], errors='coerce', dayfirst=False).fillna(
+                           pd.to_datetime(df_vendas['Data_Venda'], errors='coerce', dayfirst=True))
 
 # DataFrame de Clientes:
 
@@ -75,8 +93,24 @@ estado_map = {
 }
 df_clientes['Estado'] = df_clientes['Estado'].str.strip().str.lower().map(estado_map).fillna(df_clientes['Estado'].str.strip().str.upper())
 
+# df_clientes['Estado'].str.strip().str.lower() 
+# .str.strip() -> remove espaco em branco no inicio e no fim de cada valor na coluna Estado.
+# .str.lower() -> converter todos os caracteres para letras minúsculas
+# .map(estado_map) -> substituição de cada valor por um novo valor
+# .fillna(df_clientes['Estado'].str.strip().str.upper())
+# .fillna() -> preencher valor nulo
+# df_clientes['Estado'].str.strip().str.upper() -> o valor usado para preencher os nulos, o nome da coluna original (estado) 
+
+
 print("\nTabela de clientes")
 print(df_clientes)
+
+# ---
+# df_clientes['Estado'] = df_clientes['Estado'].str.strip().str.upper()
+# mapa_estados = {'MINAS GERAIS': 'MG'}
+# df_clientes['Estado'] = df_clientes['Estado'].replace(mapa_estados)
+
+# ---
 
 # DataFrame de Produtos:
 
@@ -91,8 +125,44 @@ print(df_produtos)
 
 # Merge: Crie um DataFrame final df_completo juntando as três tabelas.
 
+
 df_completo = pd.merge(df_vendas, df_clientes, on='ID_Cliente')
 df_completo = pd.merge(df_completo, df_produtos, on='ID_Produto')
+
+# ---
+# how='inner' (Interseção) -> apenas as linhas que têm uma correspondência em AMBAS as tabelas.
+
+# A venda do produto 999 é descartada.
+
+# Quando usar: Para garantir que seu resultado final seja 100% consistente. É o mais comum.
+
+# how='left' (Junção à Esquerda):
+
+# Regra: Mantém TODAS as linhas da tabela da esquerda (df_vendas) e adiciona as informações da direita (df_produtos) se encontrar uma correspondência.
+
+# Resultado: A venda do produto 999 permaneceria na tabela, mas as colunas do produto (como Nome_Produto, Categoria) apareceriam como NaN (nulo).
+
+# Quando usar: Quando a tabela da esquerda é sua base principal e você não quer perder nenhuma linha dela, mesmo que não haja correspondência na outra tabela. Ex: "Quero ver todas as minhas vendas, e se o produto for desconhecido, apenas me informe".
+
+# how='right' (Junção à Direita):
+
+# Regra: Mantém TODAS as linhas da tabela da direita (df_produtos).
+
+# Resultado: Manteria todos os produtos, e se um produto nunca foi vendido, suas colunas de venda ficariam nulas (NaN).
+
+# Quando usar: Para ver todos os itens de uma tabela de referência (como produtos) e verificar quais deles têm atividade na tabela principal (vendas). Ex: "Quero uma lista de todos os meus produtos e quero saber quais foram vendidos".
+
+# how='outer' (Junção Externa Completa):
+
+# Regra: Mantém TODAS as linhas de AMBAS as tabelas. É a união de tudo.
+
+# Resultado: Manteria a venda do produto 999 (com dados do produto nulos) E manteria produtos que nunca foram vendidos (com dados de venda nulos).
+
+# Quando usar: Quando você não quer perder absolutamente nenhuma informação de nenhuma das tabelas e precisa ver o universo completo dos seus dados.
+
+# df_completo = pd.merge(df_vendas, df_clientes, on='ID_Cliente', how = 'inner')
+# df_completo = pd.merge(df_completo, df_produtos, on='ID_Produto')
+# ---
 
 print("\nTabela completa")
 print(df_completo)
