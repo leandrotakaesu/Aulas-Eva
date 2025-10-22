@@ -132,3 +132,90 @@
 #      Imagine que uma pasta contém vários ficheiros para serem processados: `dados.csv`, `relatorio.json`, `config.xml` e `backup.json`.
 #      Crie uma lista de "trabalhos", onde cada trabalho é uma instância de um dos processadores (`ProcessadorCSV('dados.csv')`, `ProcessadorJSON('relatorio.json')`, etc.).
 #      Passe esta lista para a sua função `executar_pipeline` e observe como o sistema processa cada ficheiro de forma diferente, usando a mesma chamada de função.
+
+# ----------------------------------------
+# Exercício Integrado: Análise de Desempenho de Campanhas de Marketing
+
+# Cenário: Você trabalha no departamento de marketing de uma loja online. Você recebeu dois arquivos: um com os detalhes das campanhas de marketing (`campanhas.csv`) e outro com os dados de vendas diárias (`vendas_diarias.csv`). Os dados estão um pouco "sujos" e você precisa de os combinar e analisar para entender o impacto das campanhas nas vendas.
+
+# Objetivo: Limpar, combinar, analisar e visualizar os dados para responder a perguntas sobre a eficácia das campanhas.
+
+#### Passo 0: Os Dados Brutos
+
+import pandas as pd
+import io
+
+# Dados das Campanhas (com dados "sujos")
+campanhas_csv = """ID_Campanha;Nome_Campanha;Data_Inicio;Data_Fim;Canal;Custo_Campanha
+CAMP001;Promoção Verão;2025-01-10;2025-01-20;   Email ; R$ 1.500,50
+CAMP002;Desconto Relâmpago;2025-02-01;2025-02-05;redes sociais; R$ 850,00
+CAMP003;Queima de Estoque;01/03/2025;15/03/2025;   Email ; R$ 2.100,75
+CAMP004;Frete Grátis;2025-04-05;2025-04-15;redes sociais; R$ 1.200,00
+"""
+
+# Dados de Vendas Diárias (com dados "sujos")
+vendas_csv = """Data;Receita_Diaria;Visitantes_Unicos
+10/01/2025;5500.50;800
+11/01/2025;6200.00;850
+... # (Imagine muitos outros dias aqui)
+20/01/2025;7100.20;950
+21/01/2025;4800.00;700
+...
+01/02/2025;5800.75;820
+02/02/2025;6500.10;900
+...
+05/02/2025;7500.00;1000
+06/02/2025;5100.00;750
+... # (Simulando o restante dos dados até final de Abril)
+15/04/2025;7800.80;1050
+16/04/2025;5300.00;780
+"""
+
+# Criando DataFrames a partir de strings (simulando leitura de CSV)
+
+# Criando dados de vendas diárias simulados para o período
+
+# Parte 1: Limpeza e Preparação (ETL)
+
+# 1.  DataFrame de Campanhas:
+
+#       * Limpe a coluna `Canal`: remova espaços extras e padronize para que a primeira letra seja maiúscula (ex: `   Email ` -\> `Email`).
+#       * Limpe a coluna `Custo_Campanha`: remova "R$ ", espaços, troque a vírgula por ponto e converta para `float`.
+#       * As colunas `Data_Inicio` e `Data_Fim` têm formatos mistos. Converta ambas para o tipo `datetime`.
+
+# 2.  DataFrame de Vendas (`df_vendas`):
+
+#       * Converta a coluna `Data` (que está como string `DD/MM/YYYY`) para o tipo `datetime`.
+#       * Defina a coluna `Data` como o novo índice do DataFrame.
+
+#### Parte 2: Análise Exploratória e Agrupamento
+
+# 1.  Análise de Campanhas:
+
+#       * Qual foi o custo médio das campanhas por `Canal`?
+#       * Crie uma nova coluna em `df_campanhas` chamada `Duracao_Dias` que calcule quantos dias cada campanha durou (`Data_Fim` - `Data_Inicio`).
+#       * Qual a duração média das campanhas por `Canal`?
+
+# 2.  Análise de Vendas:
+
+#       * Qual foi a receita média diária (`Receita_Diaria`) por mês? Use `.resample()`.
+#       * Qual foi o total de `Visitantes_Unicos` por semana? Use `.resample()`.
+
+#### Parte 3: Combinando Dados para Análise de Impacto
+
+# Objetivo: Verificar se os dias em que uma campanha estava ativa tiveram mais visitantes do que os dias normais.
+
+# 1.  Engenharia de Features:
+
+#       * Crie uma coluna booleana (True/False) no `df_vendas` chamada `Em_Campanha`. O valor deve ser `True` se a data da venda estiver dentro do período de *qualquer* campanha ativa (`Data_Inicio` a `Data_Fim` em `df_campanhas`), e `False` caso contrário.
+#           * Dica: Você pode iterar pelas campanhas em `df_campanhas` e usar `.loc` com slicing de datas no `df_vendas` para marcar os períodos corretos.
+
+# 2.  Análise de Impacto:
+
+#       * Usando `groupby()` na nova coluna `Em_Campanha`, calcule a média de `Visitantes_Unicos` para os dias *com* campanha ativa versus os dias *sem* campanha ativa.
+#       * Houve, em média, mais visitantes nos dias de campanha?
+
+#### Parte 4: Visualização
+
+# 1.  Crie um gráfico de barras comparando a média de `Visitantes_Unicos` em dias com e sem campanha (resultado do item 3b).
+# 2.  Crie um gráfico de linha mostrando a evolução da `Receita_Diaria` ao longo do tempo (use o `df_vendas` original com índice de data). Sobreponha a média móvel de 7 dias da receita para visualizar a tendência.
