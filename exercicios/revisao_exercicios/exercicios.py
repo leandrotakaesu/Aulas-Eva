@@ -25,6 +25,9 @@
 #          Implemente o método `enviar()` para que ele imprima:
 #             `Enviando PUSH para o dispositivo [dispositivo_id] >> "[mensagem]"`
 
+
+
+
 # 3.  Crie a Função Polimórfica:
 #      Crie uma função `enviar_notificacao_em_lote(lista_de_notificacoes)` que recebe uma lista contendo diferentes tipos de objetos de notificação.
 #      Esta função deve iterar pela lista e chamar o método `.enviar()` de cada objeto.
@@ -136,14 +139,21 @@
 # ----------------------------------------
 # Exercício Integrado: Análise de Desempenho de Campanhas de Marketing
 
-# Cenário: Você trabalha no departamento de marketing de uma loja online. Você recebeu dois arquivos: um com os detalhes das campanhas de marketing (`campanhas.csv`) e outro com os dados de vendas diárias (`vendas_diarias.csv`). Os dados estão um pouco "sujos" e você precisa de os combinar e analisar para entender o impacto das campanhas nas vendas.
+# Cenário: Você trabalha no departamento de marketing de uma loja online.
+# Você recebeu dois arquivos: um com os detalhes das campanhas de marketing (`campanhas.csv`) 
+# e outro com os dados de vendas diárias (`vendas_diarias.csv`). 
+# Os dados estão um pouco "sujos" e você precisa de os combinar e analisar para entender o impacto das 
+# campanhas nas vendas.
 
-# Objetivo: Limpar, combinar, analisar e visualizar os dados para responder a perguntas sobre a eficácia das campanhas.
+# Objetivo: Limpar, combinar, analisar e visualizar os dados para responder a 
+# perguntas sobre a eficácia das campanhas.
 
 #### Passo 0: Os Dados Brutos
 
 import pandas as pd
 import io
+import numpy as np
+import matplotlib.pyplot as plt
 
 # Dados das Campanhas (com dados "sujos")
 campanhas_csv = """ID_Campanha;Nome_Campanha;Data_Inicio;Data_Fim;Canal;Custo_Campanha
@@ -171,11 +181,33 @@ vendas_csv = """Data;Receita_Diaria;Visitantes_Unicos
 16/04/2025;5300.00;780
 """
 
+
 # Criando DataFrames a partir de strings (simulando leitura de CSV)
+df_campanhas = pd.read_csv(io.StringIO(campanhas_csv), sep=';')
+
 
 # Criando dados de vendas diárias simulados para o período
+datas_vendas = pd.date_range(start='2025-01-01', end='2025-04-30', freq='D')
+np.random.seed(42)
+receita_simulada = np.random.uniform(4000, 8000, size=len(datas_vendas))
+visitantes_simulados = np.random.randint(600, 1100, size=len(datas_vendas))
+
+df_vendas = pd.DataFrame({
+    'Data': datas_vendas, 
+    'Receita_Diaria': receita_simulada, 
+    'Visitantes_Unicos': visitantes_simulados
+})
+
+print("--- Dados Brutos Carregados ---")
+print("Campanhas:")
+print(df_campanhas.info())
+print("\nVendas (Amostra):")
+print(df_vendas.head())
 
 # Parte 1: Limpeza e Preparação (ETL)
+# Formatando a data como string DD/MM/YYYY para simular dados "sujos"
+df_vendas['Data'] = df_vendas['Data'].dt.strftime('%d/%m/%Y')
+
 
 # 1.  DataFrame de Campanhas:
 
@@ -201,6 +233,37 @@ vendas_csv = """Data;Receita_Diaria;Visitantes_Unicos
 #       * Qual foi a receita média diária (`Receita_Diaria`) por mês? Use `.resample()`.
 #       * Qual foi o total de `Visitantes_Unicos` por semana? Use `.resample()`.
 
+# 1. Limpeza do df_campanhas
+# Canal: Remover espaços e capitalizar
+df_campanhas['Canal'] = df_campanhas['Canal'].str.strip().str.title()
+
+# Custo_Campanha: Limpar e converter para float
+df_campanhas['Custo_Campanha'] = df_campanhas['Custo_Campanha'].str.replace('R$ ', '', regex=False).str.replace('.', '', regex=False).str.replace(',', '.', regex=False).astype(float)
+
+# Datas: Converter formatos mistos (YYYY-MM-DD e DD/MM/YYYY) para datetime nan/10/2023
+df_campanhas['Data_Inicio'] = pd.to_datetime(df_campanhas['Data_Inicio'], errors='coerce', dayfirst=False).fillna(
+                               pd.to_datetime(df_campanhas['Data_Inicio'], errors='coerce', dayfirst=True))
+
+df_campanhas['Data_Fim'] = pd.to_datetime(df_campanhas['Data_Fim'], errors='coerce', dayfirst=False).fillna(
+                             pd.to_datetime(df_campanhas['Data_Fim'], errors='coerce', dayfirst=True))
+
+
+# 2. Limpeza do df_vendas
+# Data: Converter string (DD/MM/YYYY) para datetime
+df_vendas['Data'] = pd.to_datetime(df_vendas['Data'], format='%d/%m/%Y')
+df_vendas.set_index('Data', inplace=True)
+# 1.  DataFrame de Campanhas:
+
+#       * Limpe a coluna `Canal`: remova espaços extras e padronize para que a primeira letra seja maiúscula (ex: `   Email ` -\> `Email`).
+#       * Limpe a coluna `Custo_Campanha`: remova "R$ ", espaços, troque a vírgula por ponto e converta para `float`.
+#       * As colunas `Data_Inicio` e `Data_Fim` têm formatos mistos. Converta ambas para o tipo `datetime`.
+
+# 2.  DataFrame de Vendas (`df_vendas`):
+
+#       * Converta a coluna `Data` (que está como string `DD/MM/YYYY`) para o tipo `datetime`.
+#       * Defina a coluna `Data` como o novo índice do DataFrame.
+
+
 #### Parte 3: Combinando Dados para Análise de Impacto
 
 # Objetivo: Verificar se os dias em que uma campanha estava ativa tiveram mais visitantes do que os dias normais.
@@ -209,6 +272,55 @@ vendas_csv = """Data;Receita_Diaria;Visitantes_Unicos
 
 #       * Crie uma coluna booleana (True/False) no `df_vendas` chamada `Em_Campanha`. O valor deve ser `True` se a data da venda estiver dentro do período de *qualquer* campanha ativa (`Data_Inicio` a `Data_Fim` em `df_campanhas`), e `False` caso contrário.
 #           * Dica: Você pode iterar pelas campanhas em `df_campanhas` e usar `.loc` com slicing de datas no `df_vendas` para marcar os períodos corretos.
+
+
+#### Parte 2: Análise Exploratória e Agrupamento
+
+# 1.  Análise de Campanhas:
+
+#       * Qual foi o custo médio das campanhas por `Canal`?
+custo_medio_canal = df_campanhas.groupby('Canal')['Custo_Campanha'].mean()
+print(f"\nCusto médio por Canal:\n{custo_medio_canal}")
+
+#       * Crie uma nova coluna em `df_campanhas` chamada `Duracao_Dias` que calcule quantos dias cada campanha durou (`Data_Fim` - `Data_Inicio`).
+df_campanhas['Duracao_Dias'] = (df_campanhas['Data_Fim'] - df_campanhas['Data_Inicio']).dt.days
+
+#       * Qual a duração média das campanhas por `Canal`?
+duracao_media_canal = df_campanhas.groupby('Canal')['Duracao_Dias'].mean()
+
+# 2.  Análise de Vendas:
+
+#       * Qual foi a receita média diária (`Receita_Diaria`) por mês? Use `.resample()`.
+receita_media_mensal = df_vendas['Receita_Diaria'].resample('ME').mean()
+print(f"\nReceita média diária por Mês:\n{receita_media_mensal}")
+
+#       * Qual foi o total de `Visitantes_Unicos` por semana? Use `.resample()`.
+visitantes_totais_semanal = df_vendas['Visitantes_Unicos'].resample('W').sum()
+print(f"\nVisitantes totais por Semana (5 primeiras semanas):\n{visitantes_totais_semanal.head()}")
+
+#### Parte 3: Combinando Dados para Análise de Impacto
+
+# Objetivo: Verificar se os dias em que uma campanha estava ativa tiveram mais visitantes do que os dias normais.
+
+# 1.  Engenharia de Features:
+
+#       * Crie uma coluna booleana (True/False) no `df_vendas` chamada `Em_Campanha`. 
+#       O valor deve ser `True` se a data da venda estiver dentro do período de *qualquer* campanha ativa 
+#       (`Data_Inicio` a `Data_Fim` em `df_campanhas`), e `False` caso contrário.
+#           * Dica: Você pode iterar pelas campanhas em `df_campanhas` e usar `.loc` com slicing de datas no 
+#`df_vendas` para marcar os períodos corretos.
+df_vendas['Em_Campanha'] = False
+print(df_vendas)
+# Itera sobre cada campanha (em df_campanhas, que é pequeno)
+# e marca os dias correspondentes em df_vendas (que é grande) como 'True'
+for campanha in df_campanhas.iterrows():
+  data_inicio = campanha['Data_Inicio']
+  data_fim = campanha['Data_Fim']
+  # Usa o índice de data para selecionar o intervalo e definir a flag
+  df_vendas.loc[data_inicio:data_fim, 'Em_Campanha'] = True
+
+print(f"\nDataFrame de Vendas com a flag 'Em_Campanha':\n{df_vendas.loc['2025-01-08':'2025-01-12']}") # Exemplo
+
 
 # 2.  Análise de Impacto:
 
